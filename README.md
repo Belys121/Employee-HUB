@@ -1,5 +1,5 @@
 # Employee Hub
-### Final project SDA
+### Final project SDAcademy
 Online aplikace pro správu firemních dat jako komplexní nástroj, který usnadňuje organizaci a sledování všech důležitých informací v rámci společnosti. 
 Umožňuje efektivní správu objednávek, což zajišťuje rychlé a přesné zpracování požadavků zákazníků. 
 Karta zaměstnance nabízí přehled o pracovních výkonech, dovolené a dalších relevantních údajích, čímž podporuje lepší komunikaci a spolupráci v týmu. 
@@ -9,41 +9,43 @@ Tato aplikace je ideálním řešením pro menší moderní firmy, které chtěj
 
 ## Mockup
 - [x] GIT
-- [x] vytvoření wireframe
-- [x] design UI prvků
-- [x] uživatelské scénáře
-- [x] prezentace mockupu
-## Základ
-- [x] HTML kostra
-- [x] klíčové fce (registrace, přilášení, vyhledávání, přiřazování objednávek...)
-- [x] testování
+- [x] creating a wireframe
+- [x] design of UI elements
+- [x] user scenarios
+- [x] mockup presentation
+## Basic
+- [x] base HTML
+- [x] others HTML
+- [x] key functions (registration, attaching, searching, order matching...)
+- [x] basic testing
 ## Plná verze
-- [x] pokročilé funkce
-- [x] optimalizace výkonu
-- [x] responzivní design
-- [x] finální testování
+- [x] advanced functions
+- [x] performance optimization
+- [x] responsive design
+- [x] covered by test
+- [x] final testing
 
-# Instalace
-## Krok 1 - Vytvoření a aktivace virtuálního prostředí
+# Instalations
+## Step 1 - Create and activate the virtual environment
     python -m venv venv
     venv\Scripts\activate
 
-## Krok 2 - Instalace závislostí
+## Step 2 - Install package
     pip install -r requirements.txt
 
-## Krok 3 - Vytvoření migrací
+## Step 3 - Create migrations
     python manage.py makemigrations
 
-## Krok 4 - Aplikace migrací
+## Step 4 - Migration application
     python manage.py migrate
 
-## Krok 5 - Vytvoření superuživatele
+## Step 5 - Create a superuser
     python manage.py createsuperuser
 
-## Krok 6 - Spuštění vývojového serveru
+## Step 6 - Start the development server
     python manage.py runserver
 
-## Krok 7 - spuštění testů
+## Voluntary step 7 - Run the tests
     pip install selenium
     python manage.py test/ python manage.py test viewer.tests 
 
