@@ -10,14 +10,13 @@ class SignUpForm(UserCreationForm):
     """
     Form for registering a new user.
 
-    This form extends UserCreationForm and includes
+    This form extends UserCreationForm and search
     fields for username, first name, last name, and email.
     Newly registered users will be set as inactive
     (is_active = False) until their account is activated.
     """
 
     class Meta(UserCreationForm.Meta):
-        # Určuje pole, která budou zahrnuta ve formuláři.
         fields = ['username', 'first_name', 'last_name', 'email']
 
     def save(self, commit=True):
@@ -31,8 +30,8 @@ class SignUpForm(UserCreationForm):
         :param commit: If True, saves to the database.
         :return: Saved user instance.
         """
-        self.instance.is_active = False  # Uživatel bude neaktivní
-        return super().save(commit)  # Zavolá se metoda save z nadřazené třídy
+        self.instance.is_active = False
+        return super().save(commit)
 
 
 class ContractForm(ModelForm):
@@ -40,11 +39,8 @@ class ContractForm(ModelForm):
     Form for creating and editing contracts.
     """
     class Meta:
-        # Určuje model, který bude použit pro formulář.
         model = Contract
-        # Zahrnuje všechna pole modelu Contract.
         fields = "__all__"
-        # Jednodušší zadávání data s použitím HTML5
         widgets = {
             'deadline': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
         }
@@ -57,10 +53,10 @@ class CustomerForm(ModelForm):
     phone_number = forms.CharField(
         max_length=15,
         label='Tel. číslo',
-        validators=[RegexValidator(r'^\d+$', 'Pole musí obsahovat pouze číslice')],  # Validátor pro číslice.
-        initial="123456789",  # Počáteční hodnota pole
-        required=True,  # Toto pole je povinné.
-        widget=forms.TextInput(attrs={'required': 'required'})  # HTML atribut pro povinnost.
+        validators=[RegexValidator(r'^\d+$', 'Pole musí obsahovat pouze číslice')],
+        initial="123456789",
+        required=True,
+        widget=forms.TextInput(attrs={'required': 'required'})
     )
     email_address = forms.EmailField(
         max_length=128,
