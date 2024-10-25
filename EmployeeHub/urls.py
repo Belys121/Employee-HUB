@@ -34,7 +34,7 @@ urlpatterns = [
     path('users/', UserListView.as_view(), name='user_list'),
 
 
-# path for navbar/homepage
+# path for navbar/homepages
     path('navbar_contracts/', ContractListView.as_view(), name='navbar_contracts'),
     path('navbar_contracts_all/', ContractAllListView.as_view(), name='navbar_contracts_all'),
 

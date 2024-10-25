@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base_and_homepage/base.html' %}
 
 {% load static %}
 
@@ -12,14 +12,14 @@
         <div class="col-lg-6">
             <div class="card text-center">
                 <div class="card-body">
-                    {% include 'contracts_homepage.html' with contracts=contracts limit=5 %}
+                    {% include 'homepages/contracts_homepage.html' with contracts=contracts limit=5 %}
                 </div>
             </div>
         </div>
         <div class="col-lg-6">
             <div class="card text-center">
                 <div class="card-body">
-                    {% include 'events_homepage.html' %}
+                    {% include 'homepages/events_homepage.html' %}
                 </div>
             </div>
         </div>
@@ -28,14 +28,14 @@
         <div class="col-lg-6">
             <div class="card text-center">
                 <div class="card-body">
-                    {% include 'subcontracts_homepage.html' with subcontracts=subcontracts %}
+                    {% include 'homepages/subcontracts_homepage.html' with subcontracts=subcontracts %}
                 </div>
             </div>
         </div>
         <div class="col-lg-6">
             <div class="card text-center">
                 <div class="card-body">
-                    {% include 'comments_homepage.html' %}
+                    {% include 'homepages/comments_homepage.html' %}
                 </div>
             </div>
         </div>
