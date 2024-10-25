@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.views import LoginView, PasswordChangeView
-from django.db.models import Max, Q
+from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
@@ -29,11 +29,11 @@ User = get_user_model()
 
 class HomepageView(LoginRequiredMixin, TemplateView):
     """
-    View for homepage, user must be logged in.
+    View for homepages, user must be logged in.
     Displays projects, subprojects, events and comments in relation to the currently logged in user.
     Only the 5 most recent items are displayed and only the current day's events.
     """
-    template_name = 'homepage.html'
+    template_name = 'base_and_homepage/homepage.html'
 
     def get_context_data(self, **kwargs):
         """
@@ -66,7 +66,7 @@ class ContractView(PermissionRequiredMixin, LoginRequiredMixin, DetailView):
     Access is limited to logged in users with the 'view_contract' permission.
     """
     model = Contract
-    template_name = "detail_contract.html"
+    template_name = "detail_con_and_subcon/detail_contract.html"
     permission_required = 'viewer.view_contract'
 
 
@@ -74,7 +74,7 @@ class ContractCreateView(PermissionRequiredMixin, LoginRequiredMixin, CreateView
     """
     View to create a new order.
     """
-    template_name = 'form.html'
+    template_name = 'forms/form.html'
     form_class = ContractForm
     success_url = reverse_lazy('navbar_contracts_all')
     permission_required = 'viewer.add_contract'
@@ -90,7 +90,7 @@ class ContractCreateView(PermissionRequiredMixin, LoginRequiredMixin, CreateView
 
 
 class ContractUpdateView(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
-    template_name = "form.html"
+    template_name = "forms/form.html"
     model = Contract
     form_class = ContractForm
     success_url = reverse_lazy("navbar_contracts_all")
@@ -98,7 +98,7 @@ class ContractUpdateView(PermissionRequiredMixin, LoginRequiredMixin, UpdateView
 
 
 class ContractDeleteView(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
-    template_name = "delete_confirmation.html"
+    template_name = "forms/delete_confirmation.html"
     model = Contract
     permission_required = 'viewer.delete_contract'
 
@@ -139,7 +139,7 @@ class ContractListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
     Includes a search function that allows you to filter contracts by name.
     """
     model = Contract
-    template_name = 'navbar_contracts.html'
+    template_name = 'navbar/navbar_contracts.html'
     context_object_name = "contracts"
     permission_required = 'viewer.view_contract'
 
@@ -168,10 +168,10 @@ class ContractListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
 
 class ContractAllListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
     """
-   View a list of all contracts regardless of the user.
+    View a list of all contracts regardless of the user.
     """
     model = Contract
-    template_name = 'navbar_contracts_all.html'
+    template_name = 'navbar/navbar_contracts_all.html'
     context_object_name = "contracts"
     permission_required = 'viewer.view_contract'
 
@@ -199,7 +199,7 @@ def contract_detail(request, contract_id):
     Displays a detailed view of a specific job.
     """
     contract = get_object_or_404(Contract, id=contract_id)
-    return render(request, 'detail_contract.html', {'contract': contract})
+    return render(request, 'deatil_con_and_subcon/detail_contract.html', {'contract': contract})
 
 
 class SubContractAllListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
@@ -209,7 +209,7 @@ class SubContractAllListView(PermissionRequiredMixin, LoginRequiredMixin, ListVi
     The results are ranked according to their own method (delta).
     """
     model = SubContract
-    template_name = 'navbar_subcontracts.html'
+    template_name = 'navbar/navbar_subcontracts.html'
     context_object_name = 'subcontracts'
     permission_required = 'viewer.view_subcontract'
 
@@ -234,12 +234,12 @@ class SubContractAllListView(PermissionRequiredMixin, LoginRequiredMixin, ListVi
 
 class SubContractView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
     model = SubContract
-    template_name = 'subcontracts_homepage.html'
+    template_name = 'homepages/subcontracts_homepage.html'
     permission_required = 'viewer.view_subcontract'
 
 
 class SubContractCreateView(PermissionRequiredMixin, LoginRequiredMixin, FormView):
-    template_name = 'form.html'
+    template_name = 'forms/form.html'
     form_class = SubContractForm
     permission_required = 'viewer.add_subcontract'
 
@@ -256,7 +256,7 @@ class SubContractCreateView(PermissionRequiredMixin, LoginRequiredMixin, FormVie
 
 
 class SubContractUpdateView(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
-    template_name = "form.html"
+    template_name = "forms/form.html"
     model = SubContract
     form_class = SubContractForm
     permission_required = 'viewer.change_subcontract'
@@ -277,7 +277,7 @@ class SubContractUpdateView(PermissionRequiredMixin, LoginRequiredMixin, UpdateV
 
 
 class SubContractDeleteView(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
-    template_name = "delete_confirmation.html"
+    template_name = "forms/delete_confirmation.html"
     model = SubContract
     permission_required = 'viewer.delete_subcontract'
 
@@ -298,7 +298,7 @@ class SubContractDetailView(PermissionRequiredMixin, LoginRequiredMixin, DetailV
     """
     View sub-order details.
     """
-    template_name = "detail_subcontract.html"
+    template_name = "detail_con_and_subcon/detail_subcontract.html"
     model = SubContract
     permission_required = 'viewer.view_subcontract'
 
@@ -324,7 +324,7 @@ def show_subcontracts(request):
     search_url = 'navbar_show_subcontracts'
     show_search = True
 
-    return render(request, 'subcontract.html', {
+    return render(request, 'other/subcontract.html', {
         'subcontracts': sorted_subcontracts,
         'search_form': search_form,
         'search_url': search_url,
@@ -340,7 +340,7 @@ def subcontract_detail(request, subcontract_id):
     """
     subcontract = get_object_or_404(SubContract, pk=subcontract_id)
     contract = subcontract.contract
-    return render(request, 'detail_subcontract.html', {'subcontract': subcontract, 'contract': contract})
+    return render(request, 'detail_con_and_subcon/detail_subcontract.html', {'subcontract': subcontract, 'contract': contract})
 
 
 class CustomerView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
@@ -348,7 +348,7 @@ class CustomerView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
     View the list of customers.
     """
     model = Customer
-    template_name = 'navbar_customers.html'
+    template_name = 'navbar/navbar_customers.html'
     context_object_name = "customers"
     permission_required = 'viewer.view_customer'
 
@@ -380,14 +380,14 @@ class CustomerCreateView(PermissionRequiredMixin, LoginRequiredMixin, CreateView
     """
     Creating a new customer.
     """
-    template_name = 'form.html'
+    template_name = 'forms/form.html'
     form_class = CustomerForm
     success_url = reverse_lazy('navbar_customers')
     permission_required = 'viewer.add_customer'
 
 
 class CustomerUpdateView(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
-    template_name = 'form.html'
+    template_name = 'forms/form.html'
     model = Customer
     form_class = CustomerForm
     success_url = reverse_lazy('navbar_customers')
@@ -395,7 +395,7 @@ class CustomerUpdateView(PermissionRequiredMixin, LoginRequiredMixin, UpdateView
 
 
 class CustomerDeleteView(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
-    template_name = 'delete_confirmation.html'
+    template_name = 'forms/delete_confirmation.html'
     model = Customer
     permission_required = 'viewer.delete_customer'
 
@@ -413,7 +413,7 @@ class CustomerDeleteView(PermissionRequiredMixin, LoginRequiredMixin, DeleteView
 
 class UserListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
     model = User
-    template_name = 'employees.html'
+    template_name = 'navbar/employees.html'
     context_object_name = "employees"
     permission_required = 'auth.view_user'
 
@@ -447,7 +447,7 @@ class CommentListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
     View the last five comments, sorted in descending order from the most recent.
     """
     model = Comment
-    template_name = "comments_homepage.html"
+    template_name = "homepages/comments_homepage.html"
     permission_required = 'viewer.view_comment'
     context_object_name = 'comments'
 
@@ -457,7 +457,7 @@ class CommentListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
 
 
 class CommentCreateView(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
-    template_name = "form.html"
+    template_name = "forms/form.html"
     form_class = CommentForm
     permission_required = 'viewer.add_comment'
 
@@ -481,7 +481,7 @@ def calendar_view(request):
     """
     Renders calendar.
     """
-    return render(request, 'calendar.html')
+    return render(request, 'other/calendar.html')
 
 
 @login_required
@@ -589,7 +589,7 @@ def employee_profile(request):
     Handles both GET and POST requests with enhanced error handling:
         - GET: Retrieves and displays user profile information with edit forms for various sections.
         - POST: Processes form submissions for employee, bank account or emergency contact information.
-    Enhanced error handling includes exception logging and user notification of problems and redirection back
+    Enhanced error handling search exception logging and user notification of problems and redirection back
         to the profile page if errors occur.
     """
     user = request.user
@@ -603,12 +603,12 @@ def employee_profile(request):
 
     edit_section = request.GET.get('edit')
 
-    # Inicializovat formuláře jako None
+    # Inicializing form like None
     bank_account_form = None
     employee_information_form = None
     emergency_contact_formset = None
 
-    # Zpracování požadavků POST
+    # Processing POST requests
     if request.method == 'POST':
         if 'employee_information_submit' in request.POST:
             try:
@@ -673,7 +673,7 @@ def employee_profile(request):
             else:
                 messages.error(request, 'Opravte prosím níže uvedené chyby.')
 
-    # Zpracování požadavků GET
+    # Processing GET requests
     else:
         if edit_section == 'information':
             try:
@@ -701,7 +701,7 @@ def employee_profile(request):
             )
             emergency_contact_formset = EmergencyContactFormSetAdjusted(instance=user_profile)
 
-    # Získání dat pro zobrazení v režimu pouze pro čtení
+    # Getting data only for read
     try:
         employee_information = user_profile.employeeinformation
     except EmployeeInformation.DoesNotExist:
@@ -722,14 +722,14 @@ def employee_profile(request):
         'bank_account': bank_account,
     }
 
-    return render(request, 'employee_profile.html', context)
+    return render(request, 'other/employee_profile.html', context)
 
 
 class SignUpView(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
     """
     Displays a form for users to log in to the account.
     """
-    template_name = 'form.html'
+    template_name = 'forms/form.html'
     form_class = SignUpForm
     success_url = reverse_lazy('login')
     permission_required = "viewer.view_userprofile"
@@ -739,14 +739,14 @@ class SubmittableLoginView(LoginView):
     """
     Custom login view.
     """
-    template_name = 'login.html'
+    template_name = 'registration/login.html'
 
 
 class SubmittablePasswordChangeView(LoginRequiredMixin, PasswordChangeView):
     """
     Form for password change.
     """
-    template_name = 'form.html'
+    template_name = 'forms/form.html'
     success_url = reverse_lazy('homepage')
 
 
@@ -761,7 +761,7 @@ def change_security_question_view(request):
             return redirect('employee_profile')
     else:
         form = SecurityQuestionForm(instance=user_profile)
-    return render(request, 'form.html', {'form': form})
+    return render(request, 'forms/form.html', {'form': form})
 
 
 def password_reset_step_1(request):
@@ -772,8 +772,8 @@ def password_reset_step_1(request):
             request.session['reset_user_id'] = user.id
             return redirect('password_reset_step_2')
         except User.DoesNotExist:
-            return render(request, 'password_reset_step_1.html', {'error': 'Uživatel nebyl nalezen'})
-    return render(request, 'password_reset_step_1.html')
+            return render(request, 'reset_password/password_reset_step_1.html', {'error': 'Uživatel nebyl nalezen'})
+    return render(request, 'reset_password/password_reset_step_1.html')
 
 
 def password_reset_step_2(request):
@@ -791,10 +791,10 @@ def password_reset_step_2(request):
                 return redirect('password_reset_step_3')
             else:
                 error = 'Nesprávná odpověď nebo špatná otázka'
-                return render(request, 'password_reset_step_2.html', {'form': form, 'error': error, 'security_question': profile.security_question})
+                return render(request, 'reset_password/password_reset_step_2.html', {'form': form, 'error': error, 'security_question': profile.security_question})
     else:
         form = SecurityAnswerForm()
-    return render(request, 'password_reset_step_2.html', {'form': form, 'security_question': profile.security_question})
+    return render(request, 'reset_password/password_reset_step_2.html', {'form': form, 'security_question': profile.security_question})
 
 
 def password_reset_step_3(request):
@@ -818,4 +818,4 @@ def password_reset_step_3(request):
                 form.add_error(None, 'Hesla se neshodují')
     else:
         form = SetNewPasswordForm()
-    return render(request, 'password_reset_step_3.html', {'form': form})
+    return render(request, 'reset_password/password_reset_step_3.html', {'form': form})
