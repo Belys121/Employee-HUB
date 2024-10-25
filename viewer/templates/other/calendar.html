@@ -1,0 +1,19 @@
+{% extends 'base_and_homepage/base.html' %}
+
+{% block title %}
+    SDA EmployeeHub | Kalendář
+{% endblock %}
+
+{% block content %}
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+    <script src="/static/fullcalendar.js"></script>
+
+    <div id="calendar"></div>
+{% endblock %}

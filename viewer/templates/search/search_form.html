@@ -1,0 +1,7 @@
+<form method="GET" action="{% url search_url %}" class="d-flex" role="search">
+    <input class="form-control me-2 " type="search" name="query" id="query"
+           value="{{ search_form.query.value|default:'' }}" placeholder="Search" aria-label="Search">
+    <button class="btn btn-outline-success" type="submit">Search</button>
+    <a href="{% url search_url %}" class="btn btn-outline-danger ms-2">Clear</a>
+</form>
+

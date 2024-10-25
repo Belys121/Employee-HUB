@@ -1,0 +1,28 @@
+{% extends 'base_and_homepage/base.html' %}
+
+{% block title %}
+    SDA EmployeeHub | Delete Confirmation
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h4>Opravdu chcete smazat tento záznam?</h4>
+                    <p>{{ object }}</p>
+                    <form method="post">
+                        {% csrf_token %}
+                        <!-- Skryté pole pro HTTP_REFERER -->
+                        <input type="hidden" name="referer" value="{{ request.META.HTTP_REFERER }}">
+
+                        <button type="submit" class="btn btn-danger mt-3">Smazat</button>
+                        <a href="{{ request.META.HTTP_REFERER|default:'/' }}" class="btn btn-secondary mt-3">Zrušit</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

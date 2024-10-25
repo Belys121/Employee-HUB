@@ -1,0 +1,185 @@
+{% extends 'base_and_homepage/base.html' %}
+
+{% block content %}
+
+<!-- Block 1: Employee Information -->
+<div class="container mt-4">
+    <h2 class="mb-4">Profil zaměstnance</h2>
+    <div class="card mb-4">
+        <div class="card-body">
+            <h3>Informace o zaměstnanci</h3>
+            <p><strong>Celé jméno:</strong> {{ user.first_name }} {{ user.last_name }}</p>
+            {% if employee_information and employee_information.start_employee_contract %}
+                <p><strong>Datum nástupu:</strong> {{ employee_information.start_employee_contract|date:"d.m.Y" }}</p>
+                <p><strong>Počet dní ve firmě:</strong> {{ employee_information.duration_of_employment }} dní</p>
+            {% else %}
+                <p><strong>Datum nástupu:</strong> Není k dispozici</p>
+                <p><strong>Počet dní ve firmě:</strong> Není k dispozici</p>
+            {% endif %}
+
+            {% if employee_information_form %}
+                <form method="POST">
+                    {% csrf_token %}
+                    {% for field in employee_information_form %}
+                        <div class="form-group mt-3">
+                            <label for="{{ field.id_for_label }}"><strong>{{ field.label }}</strong></label>
+                            {{ field }}
+                            {% if field.errors %}
+                                <div class="text-danger font-weight-bold">
+                                    <strong>{{ field.errors }}</strong>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                    <button type="submit" name="employee_information_submit" class="btn btn-custom mt-4">Uložit</button>
+                </form>
+            {% else %}
+                <!-- Read-only mode -->
+                {% if employee_information %}
+                    <p><strong>Adresa:</strong> {{ employee_information.permament_address }}</p>
+                    <p><strong>Číslo popisné:</strong> {{ employee_information.permament_descriptive_number }}</p>
+                    <p><strong>PSČ:</strong> {{ employee_information.permament_postal_code }}</p>
+                    <p><strong>Město:</strong> {{ employee_information.city }}</p>
+                    <p><strong>Telefonní číslo:</strong> {{ employee_information.phone_number }}</p>
+                    <p><strong>Datum narození:</strong> {{ employee_information.birth_day|date:"d.m.Y" }}</p>
+                    <p><strong>Typ smlouvy:</strong> {{ employee_information.contract_type }}</p>
+                {% else %}
+                    <p>Informace o zaměstnanci nejsou k dispozici.</p>
+                {% endif %}
+                <a href="?edit=information" class="btn btn-custom">Upravit informace</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Block 2: Bank Account -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h3>Bankovní účet</h3>
+            {% if bank_account_form %}
+                <form method="POST">
+                    {% csrf_token %}
+                    {% for field in bank_account_form %}
+                        <div class="form-group mt-3">
+                            <label for="{{ field.id_for_label }}"><strong>{{ field.label }}</strong></label>
+                            {{ field }}
+                            {% if field.errors %}
+                                <div class="text-danger font-weight-bold">
+                                    <strong>{{ field.errors }}</strong>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                    <button type="submit" name="bank_account_submit" class="btn btn-custom mt-4">Uložit</button>
+                </form>
+            {% else %}
+                {% if bank_account %}
+                    <p><strong>Předčíslo účtu:</strong> {{ bank_account.account_prefix }}</p>
+                    <p><strong>Číslo účtu:</strong> {{ bank_account.account_number }}</p>
+                    <p><strong>Kód banky:</strong> {{ bank_account.bank_code }}</p>
+                    <p><strong>Název banky:</strong> {{ bank_account.bank_name }}</p>
+                    <p><strong>IBAN:</strong> {{ bank_account.iban }}</p>
+                    <p><strong>SWIFT/BIC:</strong> {{ bank_account.swift_bic }}</p>
+                {% else %}
+                    <p>Informace o bankovním účtu nejsou k dispozici.</p>
+                {% endif %}
+                <a href="?edit=account" class="btn btn-custom">Upravit účet</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Block 3: Emergency Contacts -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h3>Kontaktní osoby</h3>
+            {% if emergency_contact_formset %}
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ emergency_contact_formset.management_form }}
+                    <div id="formset-container">
+                        {% for form in emergency_contact_formset.forms %}
+                            <div class="emergency-contact-form">
+                                {% if forloop.counter == 1 %}
+                                    <h4>První osoba</h4>
+                                {% elif forloop.counter == 2 %}
+                                    <h4>Druhá osoba</h4>
+                                {% endif %}
+                                <!-- Loop over visible fields -->
+                                {% for field in form.visible_fields %}
+                                    <div class="form-group mt-3">
+                                        <label for="{{ field.id_for_label }}"><strong>{{ field.label }}</strong></label>
+                                        {{ field }}
+                                        {% if field.errors %}
+                                            <div class="text-danger font-weight-bold">
+                                                <strong>{{ field.errors }}</strong>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+                                <!-- Include hidden fields without displaying them -->
+                                {% for hidden in form.hidden_fields %}
+                                    {{ hidden }}
+                                {% endfor %}
+                            </div>
+                            <br>
+                        {% endfor %}
+                    </div>
+                    <!-- Button to add a new contact if less than 2 contacts exist -->
+                    {% if emergency_contact_formset.total_form_count < 2 %}
+                        <button type="button" id="add-contact-btn" class="btn btn-custom mt-4">Přidat další osobu</button>
+                    {% endif %}
+                    <button type="submit" name="emergency_contact_submit" class="btn btn-custom mt-4">Uložit</button>
+                </form>
+                <!-- Hidden empty form template -->
+                <div id="empty-form" style="display:none;">
+                    <div class="emergency-contact-form">
+                        <h4>Nová osoba</h4>
+                        <!-- Loop over visible fields -->
+                        {% for field in emergency_contact_formset.empty_form.visible_fields %}
+                            <div class="form-group mt-4">
+                                <label for="{{ field.id_for_label }}"><strong>{{ field.label }}</strong></label>
+                                {{ field }}
+                            </div>
+                        {% endfor %}
+                        <!-- Include hidden fields without displaying them -->
+                        {% for hidden in emergency_contact_formset.empty_form.hidden_fields %}
+                            {{ hidden }}
+                        {% endfor %}
+                    </div>
+                    <br>
+                </div>
+            {% else %}
+                {% if user_profile and user_profile.emergency_contacts.exists %}
+                    {% for contact in user_profile.emergency_contacts.all %}
+                        <p><strong>Jméno:</strong> {{ contact.name }}</p>
+                        <p><strong>Adresa:</strong> {{ contact.address }}</p>
+                        <p><strong>Číslo popisné:</strong> {{ contact.descriptive_number }}</p>
+                        <p><strong>Město:</strong> {{ contact.city }}</p>
+                        <p><strong>PSČ:</strong> {{ contact.postal_code }}</p>
+                        <p><strong>Telefon:</strong> {{ contact.phone_number }}</p>
+                        <hr>
+                    {% endfor %}
+                {% else %}
+                    <p>Nevyplnili jste žádnou kontaktní osobu.</p>
+                {% endif %}
+                <a href="?edit=emergency_contacts" class="btn btn-custom">Upravit kontaktní osoby</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Block 4: Security question, security answer -->
+    <div class="card mb-4">
+         <div class="card-body">
+            <h3>Heslo</h3>
+            <p><strong>Bezpečnostní otázka:</strong> {{ user_profile.security_question }}</p>
+            <a href="{% url 'change_security_question' %}" class="btn btn-custom">Upravit</a>
+         </div>
+    </div>
+</div>
+
+{% endblock %}
+
+<!-- Include JavaScript only if editing emergency contacts -->
+{% if emergency_contact_formset %}
+    {% load static %}
+    <script src="{% static 'employee_profile.js' %}"></script>
+{% endif %}

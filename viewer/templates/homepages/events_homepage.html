@@ -1,0 +1,35 @@
+<a href="{% url 'calendar' %}"><h2>Události dne</h2></a>
+
+<table class="table">
+    <thead>
+        <tr class="text-center">
+            <th>Událost</th>
+            <th>Čas</th>
+            <th>Datum</th>
+            <th>Skupina</th>
+        </tr>
+    </thead>
+    <tbody class="table-group-divider">
+        {% for event in events %}
+            <tr class="text-center">
+                <td>{{ event.title }}</td>
+                <td>{{ event.start_time|date:"H:i" }} - {{ event.end_time|date:"H:i" }}</td>
+
+                <!-- Kontrola, zda je událost ve stejný den -->
+                <td>
+                    {% if event.start_time|date:"d.m.Y" == event.end_time|date:"d.m.Y" %}
+                        {{ event.start_time|date:"d.m." }}
+                    {% else %}
+                        {{ event.start_time|date:"d.m." }} - {{ event.end_time|date:"d.m." }}
+                    {% endif %}
+                </td>
+
+                <td>{{ event.group }}</td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="4" class="text-center">Žádné události nenalezeny!</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

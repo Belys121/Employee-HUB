@@ -1,0 +1,43 @@
+{% extends 'base_and_homepage/base.html' %}
+
+{% block title %}
+    SDA Employee Hub | Subcontract Detail
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <a href="{% url 'contract_detail' subcontract.contract.pk %}" class="btn btn-custom mt-4">Zpět na přehled</a>
+    <a href="{% url 'subcontract_update' contract_pk=subcontract.contract.pk subcontract_number=subcontract.subcontract_number %}" class="btn btn-custom mt-4">Upravit</a>
+
+    <h2 class="mt-4">Detail podprojektu č. {{ subcontract.subcontract_number }}</h2>
+    <p class="mt-4">Číslo projektu: {{ subcontract.contract.pk }}</p>
+    <p>Název podprojektu: {{ subcontract.contract.contract_name }} - {{ subcontract.subcontract_name }}</p>
+    <p>Vytvořeno: {{ subcontract.created | date:"d.m.Y" }}</p>
+
+
+    <h4>Komentáře</h4>
+    <div>
+        <a href="{% url 'comment_add' subcontract.pk %}" class="btn btn-custom mt-3 mb-4"> Přidat komentář </a>
+    </div>
+
+    <table class="table table-bordered table-striped table-hover">
+        <thead>
+            <tr class="text-center">
+                <th>Poř. číslo</th>
+                <th>Komentář</th>
+                <th>Datum zadání</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for comment in subcontract.comment_set.all %}
+            <tr class="text-center">
+                <td>{{ forloop.counter }}</td>
+                <td>{{ comment.text }}</td>
+                <td>{{ comment.created | date:"d.m.Y" }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
