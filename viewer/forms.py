@@ -9,7 +9,6 @@ from viewer.models import Contract, Customer, SubContract, Comment
 class SignUpForm(UserCreationForm):
     """
     Form for registering a new user.
-
     This form extends UserCreationForm and search
     fields for username, first name, last name, and email.
     Newly registered users will be set as inactive
