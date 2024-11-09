@@ -18,7 +18,7 @@ Tato aplikace je ideálním řešením pro menší moderní firmy, které chtěj
 - [x] others HTML
 - [x] key functions (registration, attaching, searching, order matching...)
 - [x] basic testing
-## Plná verze
+## Full version
 - [x] advanced functions
 - [x] performance optimization
 - [x] responsive design
@@ -26,29 +26,30 @@ Tato aplikace je ideálním řešením pro menší moderní firmy, které chtěj
 - [x] final testing
 
 # Instalations
-## Step 1 - Create and activate the virtual environment
+### Step 1 - Create and activate the virtual environment
     python -m venv venv
     venv\Scripts\activate
 
-## Step 2 - Install package
+### Step 2 - Install package
     pip install -r requirements.txt
 
-## Step 3 - Create migrations
+### Step 3 - Create migrations
     python manage.py makemigrations
 
-## Step 4 - Migration application
+### Step 4 - Migration application
     python manage.py migrate
 
-## Step 5 - Create a superuser
+### Step 5 - Create a superuser
     python manage.py createsuperuser
 
-## Step 6 - Start the development server
+### Step 6 - Start the development server
     python manage.py runserver
 
-## Voluntary step 7 - Run the tests
+### Voluntary step 7 - Run the tests
     pip install selenium
     python manage.py test/ python manage.py test viewer.tests 
 
 
 ![ER Diagram](ER_diagram_SDA_final_project.png)
 
+### For questions or suggestions, contact michael.belka.mb@gmail.com

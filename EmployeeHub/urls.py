@@ -17,16 +17,14 @@ Including another URLconf
 from django.contrib import admin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import path
-
-
-
 from viewer.views import HomepageView, UserListView, CustomerView, ContractListView, \
-    ContractAllListView,  ContractCreateView, ContractUpdateView, ContractDeleteView, \
+    ContractAllListView, ContractCreateView, ContractUpdateView, ContractDeleteView, \
     CustomerCreateView, CustomerUpdateView, CustomerDeleteView, SubContractCreateView, \
     SubmittablePasswordChangeView, show_subcontracts, SubContractUpdateView, SubContractDeleteView, CommentCreateView, \
     events_feed, calendar_view, update_event, create_event, get_groups, delete_event, \
     employee_profile, change_security_question_view, password_reset_step_1, password_reset_step_2, \
-    password_reset_step_3, SubContractAllListView,  ContractView, SubContractDetailView
+    password_reset_step_3, SubContractAllListView, ContractView, SubContractDetailView
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
