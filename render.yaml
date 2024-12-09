@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: Employee-HUB
+    env: python
+    region: oregon
+    buildCommand: "pip install -r requirements.txt && python manage.py collectstatic --no-input"
+    startCommand: "gunicorn EmployeeHub.wsgi:application"
+    autoDeploy: true
+    branch: main
