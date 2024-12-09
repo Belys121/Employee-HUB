@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-!+#q(_syhh_u2ok4$oogr2z0g7a-@=w!5&2d56zlcirdsweakz
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = ["https://employee-hub-2cem.onrender.com"]
+ALLOWED_HOSTS = ["employee-hub-2cem.onrender.com", "localhost", "127.0.0.1"]
 
 
 # Application definition
@@ -84,10 +84,9 @@ import os
 
 DATABASES = {
     'default': dj_database_url.config(
-        default=os.getenv('DATABASE_URL')
+        default=f'sqlite:///{os.path.join(BASE_DIR, "db.sqlite3")}'
     )
 }
-
 
 
 # Password validation
@@ -125,7 +124,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_test')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 
 # Default primary key field type
