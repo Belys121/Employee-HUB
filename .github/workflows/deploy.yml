@@ -16,5 +16,6 @@ jobs:
     - name: Deploy to Render
       uses: johnbeynon/render-deploy-action@v0.0.8
       with:
-        api_key: ${{ secrets.RENDER_API_KEY }}
-        service_id: srv-ctbi5et6l47c73af17jg  # Nahraďte správným service_id
+        api-key: ${{ secrets.RENDER_API_KEY }}
+        service-id: srv-ctbi5et6l47c73af17jg
+        wait-for-success: true
