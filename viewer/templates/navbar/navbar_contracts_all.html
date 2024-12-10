@@ -8,55 +8,51 @@
 <div class="container mt-4">
     <h2 class="mb-4">Všechny projekty</h2>
     <a href="{% url 'contract_create' %}" class="btn btn-custom"> Nový projekt </a>
-
-    <div class="mt-4">
-
-        <table class="table table-striped table-bordered">
-            <thead>
-                <tr class="text-center">
-                    <th>Číslo projektu</th>
-                    <th>Název projektu</th>
-                    <th>Datum vytvoření</th>
-                    <th>Deadline</th>
-                    <th>Zbývá dní</th>
-                    <th>Status</th>
-                    <th>Uživatel</th>
-                    <th>Pozice</th>
-                    <th>Počet podprojektů</th>
-                    <th>Akce</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for contract in contracts %}
-                <tr class="text-center {% if contract.delta <= 7 %}table-danger{% elif contract.delta <= 14 %}table-warning{% endif %}">
-                    <td>{{ contract.id }}</td>
-                    <td>{{ contract.contract_name }}</td>
-                    <td>{{ contract.created|date:"d.m.Y" }}</td>
-                    <td>{{ contract.deadline|date:"d.m.Y" }}</td>
-                    <td>{{ contract.delta }}</td>
-                    <td>{{ contract.get_status_display }}</td>
-                    <td>{{ contract.user.first_name }} {{ contract.user.last_name }}</td>
-                    <td>
-                        {% if contract.user.userprofile.position %}
-                            {{ contract.user.userprofile.position.name }}
-                        {% else %}
-                            Žádná pozice
-                        {% endif %}
-                    </td>
-                    <td>{{ contract.subcontracts.count }}</td>
-                    <td>
-                        <a href="{% url 'contract_detail' contract.id %}" class="btn btn-custom btn-sm">Detail</a>
-                        <a href="{% url 'contract_update' contract.pk %}" class="btn btn-custom btn-sm">Upravit</a>
-                        <a href="{% url 'contract_delete' contract.pk %}" class="btn btn-custom btn-sm">Smazat</a>
-                    </td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="10" class="text-center">Žádné projekty nejsou dostupné.</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr class="text-center">
+                <th>Číslo projektu</th>
+                <th>Název projektu</th>
+                <th>Datum vytvoření</th>
+                <th>Deadline</th>
+                <th>Zbývá dní</th>
+                <th>Status</th>
+                <th>Uživatel</th>
+                <th>Pozice</th>
+                <th>Počet podprojektů</th>
+                <th>Akce</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for contract in contracts %}
+            <tr class="text-center {% if contract.delta <= 7 %}table-danger{% elif contract.delta <= 14 %}table-warning{% endif %}">
+                <td>{{ contract.id }}</td>
+                <td>{{ contract.contract_name }}</td>
+                <td>{{ contract.created|date:"d.m.Y" }}</td>
+                <td>{{ contract.deadline|date:"d.m.Y" }}</td>
+                <td>{{ contract.delta }}</td>
+                <td>{{ contract.get_status_display }}</td>
+                <td>{{ contract.user.first_name }} {{ contract.user.last_name }}</td>
+                <td>
+                    {% if contract.user.userprofile.position %}
+                        {{ contract.user.userprofile.position.name }}
+                    {% else %}
+                        Žádná pozice
+                    {% endif %}
+                </td>
+                <td>{{ contract.subcontracts.count }}</td>
+                <td>
+                    <a href="{% url 'contract_detail' contract.id %}" class="btn btn-custom btn-sm">Detail</a>
+                    <a href="{% url 'contract_update' contract.pk %}" class="btn btn-custom btn-sm">Upravit</a>
+                    <a href="{% url 'contract_delete' contract.pk %}" class="btn btn-custom btn-sm">Smazat</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="10" class="text-center">Žádné projekty nejsou dostupné.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 {% endblock %}
