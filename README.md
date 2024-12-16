@@ -1,4 +1,4 @@
-# Employee Hub
+# Employee Hub 
 ### Final project SDAcademy
 Online aplikace pro správu firemních dat jako komplexní nástroj, který usnadňuje organizaci a sledování všech důležitých informací v rámci společnosti. 
 Umožňuje efektivní správu objednávek, což zajišťuje rychlé a přesné zpracování požadavků zákazníků. 
@@ -6,6 +6,21 @@ Karta zaměstnance nabízí přehled o pracovních výkonech, dovolené a dalš�
 Díky uživatelsky přívětivému rozhraní a přístupu z jakéhokoli zařízení se zvyšuje produktivita a transparentnost.
 
 Tato aplikace je ideálním řešením pro menší moderní firmy, které chtějí optimalizovat své procesy a zefektivnit správu dat.
+
+**English:**  
+An online application for corporate data management as a comprehensive tool that facilitates the organization and tracking of all important information within the company. 
+It enables efficient order management, ensuring fast and accurate processing of customer requests. 
+The employee card offers an overview of work performance, leave and other relevant data, thus promoting better communication and collaboration within the team. 
+With a user-friendly interface and access from any device, productivity and transparency are increased.
+
+This app is the ideal solution for smaller modern businesses looking to optimize their processes and streamline data management.
+
+## You can try the project on the production website:  
+[https://employee-hub-2cem.onrender.com](https://employee-hub-2cem.onrender.com)
+
+**user:** Tester  
+**password:** Test1122
+
 
 ## Mockup
 - [x] GIT
